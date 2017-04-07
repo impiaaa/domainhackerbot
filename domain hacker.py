@@ -16,15 +16,17 @@ for word in words:
             row.append(word)
             domain = word[:-i]+'.'+word[-i:]
             row.append(domain)
-            '''exitCode = os.system("host "+domain+"")
+            exitCode = os.system("host "+domain+"")
             if exitCode == 0:
                 # If it has a host,
                 # the website already exists.
-                row.append("Taken")
+                #row.append("Taken")
+                continue
             elif exitCode in (1, 256):
-                row.append("Available")
+                #row.append("Available")
+                pass
             else:
-                raise Exception("invalid exit code "+str(exitCode))'''
+                raise Exception("invalid exit code "+str(exitCode))
             '''url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q="+urllib.quote_plus(word)
             print url
             urldoc = urllib.urlopen(url)
