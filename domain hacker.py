@@ -1,10 +1,22 @@
 import os, csv, urllib, sys
-fin = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
+
+domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
 domains = set(filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in fin]))
-fin.close()
+domainslist.close()
+
 mindomainlen = min(map(len, domains))
 maxdomainlen = max(map(len, domains))
+
 words = open("/usr/share/dict/words")
+
+if os.exists(sys.argv[1]):
+    lastfile = open(sys.argv[1])
+    lastword = lastfile.readlines()[-1]
+    lastword = lastword[:lastword.find(',')]
+    lastfile.close()
+    for word in words:
+        if word.strip() == lastword: break
+
 fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
 for word in words:
