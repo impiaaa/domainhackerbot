@@ -16,7 +16,7 @@ for word in words:
             row.append(word)
             domain = word[:-i]+'.'+word[-i:]
             row.append(domain)
-            exitCode = os.system("host "+domain+"")
+            exitCode = os.system("host -W 1 "+domain+"")
             if exitCode == 0:
                 # If it has a host,
                 # the website already exists.
