@@ -21,7 +21,7 @@ fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
 for word in words:
     word = word.strip()
-    lword = re.sub("", "", word.lower())
+    lword = re.sub("\\W", "", word.lower())
     for i in range(mindomainlen, min(len(word)-1, maxdomainlen)):
         if lword[-i:] in domains:
             row = []
