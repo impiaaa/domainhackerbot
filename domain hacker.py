@@ -2,7 +2,7 @@ import os, csv, urllib, sys
 fin = open(sys.argv[1])
 domains = list([line.strip().lower() for line in fin])
 fin.close()
-words = open("/usr/share/dict/cracklib-small")
+words = open("/usr/share/dict/words")
 fout = open(sys.argv[2], 'w', newline='')
 writer = csv.writer(fout)
 null = None
