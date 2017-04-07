@@ -8,12 +8,12 @@ words = open("/usr/share/dict/words")
 fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
 for word in words:
-    word = word.strip().lower()
+    lword = word.strip().lower()
     for i in range(mindomainlen, min(len(word), maxdomainlen)):
-        if word[-i:] in domains:
+        if lword[-i:] in domains:
             row = []
             row.append(word)
-            domain = word[:-i]+'.'+word[-i:]
+            domain = lword[:-i]+'.'+word[-i:]
             row.append(domain)
             exitCode = os.system("host -W 1 "+domain+"")
             if exitCode == 0:
