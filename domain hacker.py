@@ -23,7 +23,7 @@ writer = csv.writer(fout)
 for word in words:
     word = word.strip()
     lword = re.sub("\\W", "", word.lower())
-    for i in range(mindomainlen, min(len(word)-1, maxdomainlen)):
+    for i in range(mindomainlen, min(len(lword)-1, maxdomainlen)):
         if lword[-i:] in domains:
             row = []
             row.append(word)
