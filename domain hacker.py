@@ -7,7 +7,7 @@ domainslist.close()
 mindomainlen = min(map(len, domains))
 maxdomainlen = max(map(len, domains))
 
-words = open("/usr/share/dict/words", 'a')
+words = open("/usr/share/dict/words")
 
 if os.path.exists(sys.argv[1]):
     lastfile = open(sys.argv[1])
@@ -18,7 +18,7 @@ if os.path.exists(sys.argv[1]):
             if word.strip() == lastword: break
     lastfile.close()
 
-fout = open(sys.argv[1], 'w')
+fout = open(sys.argv[1], 'a')
 writer = csv.writer(fout)
 for word in words:
     word = word.strip()
