@@ -28,7 +28,7 @@ for word in words:
         if lword[-i:] in domains:
             row = []
             row.append(word)
-            domain = lword[:-i]+'.'+word[-i:]
+            domain = lword[:-i]+'.'+lword[-i:]
             row.append(domain)
             exitCode = os.system("host -W 1 "+domain+"")
             if exitCode == 0:
