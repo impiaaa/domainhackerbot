@@ -1,11 +1,11 @@
 import os, csv, urllib, sys
-fin = open(sys.argv[1])
-domains = list([line.strip().lower() for line in fin])
+fin = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
+domains = set(filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in fin]))
 fin.close()
 mindomainlen = min(map(len, domains))
 maxdomainlen = max(map(len, domains))
 words = open("/usr/share/dict/words")
-fout = open(sys.argv[2], 'w', newline='')
+fout = open(sys.argv[1], 'w', newline='')
 writer = csv.writer(fout)
 null = None
 true = True
