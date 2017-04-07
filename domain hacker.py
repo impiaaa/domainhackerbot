@@ -9,7 +9,7 @@ maxdomainlen = max(map(len, domains))
 
 words = open("/usr/share/dict/words")
 
-if os.exists(sys.argv[1]):
+if os.path.exists(sys.argv[1]):
     lastfile = open(sys.argv[1])
     lastword = lastfile.readlines()[-1]
     lastword = lastword[:lastword.find(',')]
