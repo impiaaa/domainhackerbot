@@ -12,7 +12,7 @@ words = open("/usr/share/dict/words", 'a')
 if os.path.exists(sys.argv[1]):
     lastfile = open(sys.argv[1])
     lines = lastfile.readlines()
-        if len(lines) > 0:
+    if len(lines) > 0:
         lastword = lines[-1][:lines[-1].find(',')]
         for word in words:
             if word.strip() == lastword: break
