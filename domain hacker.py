@@ -2,14 +2,13 @@ import os, csv, urllib, sys
 fin = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
 domains = set(filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in fin]))
 fin.close()
-mindomainlen = min(map(len, domains))
 maxdomainlen = max(map(len, domains))
 words = open("/usr/share/dict/words")
 fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
 for word in words:
     lword = word.strip().lower()
-    for i in range(mindomainlen, min(len(word)-1, maxdomainlen)):
+    for i in range(2, min(len(word)-1, maxdomainlen)):
         if lword[-i:] in domains:
             row = []
             row.append(word)
