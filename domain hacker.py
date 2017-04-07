@@ -5,7 +5,7 @@ fin.close()
 mindomainlen = min(map(len, domains))
 maxdomainlen = max(map(len, domains))
 words = open("/usr/share/dict/words")
-fout = open(sys.argv[1], 'w', newline='')
+fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
 for word in words:
     word = word.strip().lower()
