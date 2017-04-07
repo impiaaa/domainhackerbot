@@ -9,7 +9,8 @@ words = open("/usr/share/dict/words")
 fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
 for word in words:
-    lword = word.strip().lower()
+    word = word.strip()
+    lword = word.lower()
     for i in range(2, min(len(word)-1, maxdomainlen)):
         if lword[-i:] in domains:
             row = []
