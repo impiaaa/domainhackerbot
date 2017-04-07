@@ -1,4 +1,4 @@
-import os, csv, urllib, sys
+import os, csv, urllib, sys, re
 
 domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
 domains = set(filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in domainslist]))
@@ -21,7 +21,7 @@ fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
 for word in words:
     word = word.strip()
-    lword = word.lower()
+    lword = re.sub("", "", word.lower())
     for i in range(mindomainlen, min(len(word)-1, maxdomainlen)):
         if lword[-i:] in domains:
             row = []
