@@ -9,7 +9,7 @@ fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
 for word in words:
     lword = word.strip().lower()
-    for i in range(mindomainlen, min(len(word), maxdomainlen)):
+    for i in range(mindomainlen, min(len(word)-1, maxdomainlen)):
         if lword[-i:] in domains:
             row = []
             row.append(word)
