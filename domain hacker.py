@@ -2,6 +2,8 @@ import os, csv, urllib, sys
 fin = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
 domains = set(filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in fin]))
 fin.close()
+print domains
+exit()
 maxdomainlen = max(map(len, domains))
 words = open("/usr/share/dict/words")
 fout = open(sys.argv[1], 'w')
