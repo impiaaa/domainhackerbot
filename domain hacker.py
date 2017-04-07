@@ -1,7 +1,7 @@
 import os, csv, urllib, sys
 
 domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
-domains = set(filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in fin]))
+domains = set(filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in domainslist]))
 domainslist.close()
 
 mindomainlen = min(map(len, domains))
