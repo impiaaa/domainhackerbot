@@ -7,7 +7,7 @@ domainslist.close()
 mindomainlen = min(map(len, domains))
 maxdomainlen = max(map(len, domains))
 
-words = open("/usr/share/dict/words")
+'''words = open("/usr/share/dict/words")
 
 if os.path.exists(sys.argv[1]):
     lastfile = open(sys.argv[1])
@@ -16,7 +16,16 @@ if os.path.exists(sys.argv[1]):
         lastword = lines[-1][:lines[-1].find(',')]
         for word in words:
             if word.strip() == lastword: break
-    lastfile.close()
+    lastfile.close()'''
+
+words = '''mastodon't
+mastodonate
+mastodonation
+mastodone
+mastodonkey
+mastodonned
+mastodonor
+mastodonut'''.splitlines()
 
 fout = open(sys.argv[1], 'a')
 writer = csv.writer(fout)
@@ -50,4 +59,4 @@ for word in words:
             row.append(i)
             writer.writerow(row)
 fout.close()
-words.close()
+#words.close()
