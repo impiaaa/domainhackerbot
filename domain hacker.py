@@ -7,9 +7,6 @@ maxdomainlen = max(map(len, domains))
 words = open("/usr/share/dict/words")
 fout = open(sys.argv[1], 'w', newline='')
 writer = csv.writer(fout)
-null = None
-true = True
-false = False
 for word in words:
     word = word.strip().lower()
     for i in range(mindomainlen, min(len(word), maxdomainlen)):
@@ -32,7 +29,7 @@ for word in words:
             '''url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q="+urllib.quote_plus(word)
             print url
             urldoc = urllib.urlopen(url)
-            result = eval(urldoc.read())
+            result = json.loads(urldoc.read())
             urldoc.close()
             row.append(result["responseData"]["cursor"]["estimatedResultCount"])'''
             row.append(len(word))
