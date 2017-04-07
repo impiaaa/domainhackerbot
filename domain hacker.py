@@ -40,7 +40,23 @@ Stoottgart
 substitoot
 Tootankhamen
 tootor
-tootu'''.splitlines()
+tootu
+Ai-awoo-ng
+awoo-ke
+Awoo-l
+awoo-rk
+bl-awoo-rt
+chin-awoo-man
+dr-awoo-ff
+dr-awoo-ut
+fle-awoo-rt
+h-awoo-k
+H-awoo-rthia
+se-awoo-man
+se-awoo-rn
+se-awoo-rthy
+supr-awoo-rld
+umbrell-awoo-rt'''.splitlines()
 
 fout = open(sys.argv[1], 'a')
 writer = csv.writer(fout)
