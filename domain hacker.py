@@ -7,7 +7,7 @@ domainslist.close()
 mindomainlen = min(map(len, domains))
 maxdomainlen = max(map(len, domains))
 
-words = open("/usr/share/dict/words")
+words = open("/usr/share/dict/words", 'a')
 
 if os.path.exists(sys.argv[1]):
     lastfile = open(sys.argv[1])
