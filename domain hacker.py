@@ -2,6 +2,8 @@ import os, csv, urllib, sys
 fin = open(sys.argv[1])
 domains = list([line.strip().lower() for line in fin])
 fin.close()
+mindomainlen = min(map(len, domains))
+maxdomainlen = max(map(len, domains))
 words = open("/usr/share/dict/words")
 fout = open(sys.argv[2], 'w', newline='')
 writer = csv.writer(fout)
@@ -10,7 +12,7 @@ true = True
 false = False
 for word in words:
     word = word.strip().lower()
-    for i in range(2, len(word)):
+    for i in range(mindomainlen, min(len(word), maxdomainlen)):
         if word[-i:] in domains:
             row = []
             row.append(word)
