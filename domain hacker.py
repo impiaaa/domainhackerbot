@@ -11,11 +11,12 @@ words = open("/usr/share/dict/words", 'a')
 
 if os.path.exists(sys.argv[1]):
     lastfile = open(sys.argv[1])
-    lastword = lastfile.readlines()[-1]
-    lastword = lastword[:lastword.find(',')]
+    lines = lastfile.readlines()
+        if len(lines) > 0:
+        lastword = lines[-1][:lines[-1].find(',')]
+        for word in words:
+            if word.strip() == lastword: break
     lastfile.close()
-    for word in words:
-        if word.strip() == lastword: break
 
 fout = open(sys.argv[1], 'w')
 writer = csv.writer(fout)
