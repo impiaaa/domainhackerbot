@@ -25,7 +25,22 @@ mastodone
 mastodonkey
 mastodonned
 mastodonor
-mastodonut'''.splitlines()
+mastodonut
+mastO'Donnell
+mastorthodontia
+mastoutdone
+mastoverdone
+astoot
+constitoot
+destitoot
+institoot
+prostitoot
+restitootion
+Stoottgart
+substitoot
+Tootankhamen
+tootor
+tootu'''.splitlines()
 
 fout = open(sys.argv[1], 'a')
 writer = csv.writer(fout)
