@@ -45,7 +45,7 @@ while True:
         word = word.strip()
         lword = re.sub("\\W", "", word.lower())
         for extension in domains:
-            if lword.enswith(extension):
+            if lword.endswith(extension):
                 domain = lword[:-len(extension)]+'.'+lword[-len(extnension):]
                 if domain in history: coninue
                 history.add(domain)
