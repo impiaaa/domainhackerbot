@@ -46,7 +46,7 @@ while True:
         lword = re.sub("\\W", "", word.lower())
         for extension in domains:
             if lword.endswith(extension):
-                domain = lword[:-len(extension)]+'.'+lword[-len(extnension):]
+                domain = lword[:-len(extension)]+'.'+lword[-len(extension):]
                 if domain in history: coninue
                 history.add(domain)
                 historyfile.write(domain+'\n')
