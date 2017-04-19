@@ -1,7 +1,7 @@
 import os, urllib, sys, re, random, time, whois, mastodon
 
 domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
-domains = set(filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in domainslist]))
+domains = filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in domainslist])
 domainslist.close()
 
 mindomainlen = min(map(len, domains))
@@ -20,6 +20,7 @@ else:
     historyfile = open(historyfilename, 'w')
 
 for word in words:
+    random.shuffle(domains)
     word = word.strip()
     lword = re.sub("\\W", "", word.lower())
     for i in range(mindomainlen, min(len(lword)-1, maxdomainlen)):
@@ -27,6 +28,7 @@ for word in words:
             #row = []
             #row.append(word)
             domain = lword[:-i]+'.'+lword[-i:]
+            if domain in history: conineu
             history.add(domain)
             historyfile.write(domain+'\n')
             historyfile.flush()
