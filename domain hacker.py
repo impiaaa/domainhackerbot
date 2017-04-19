@@ -13,7 +13,7 @@ random.shuffle(words)
 
 historyfilename = "domainhistory.txt"
 
-if os.path.exists(historyfile):
+if os.path.exists(historyfilename):
     history = set([s.strip() for s in open(historyfilename)])
     historyfile = open(historyfilename, 'a')
 else:
@@ -24,8 +24,8 @@ for word in words:
     random.shuffle(domains)
     word = word.strip()
     lword = re.sub("\\W", "", word.lower())
-    for i in range(mindomainlen, min(len(lword)-1, maxdomainlen)):
-        if lword[-i:] in domains:
+    for domain in domains:
+        if lword.enswith(domain):
             #row = []
             #row.append(word)
             domain = lword[:-i]+'.'+lword[-i:]
@@ -55,6 +55,7 @@ for word in words:
             #row.append(len(word))
             #row.append(i)
             #writer.writerow(row)
+            break
     time.sleep(5*60)
 fout.close()
 words.close()
