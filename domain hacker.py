@@ -42,8 +42,7 @@ def hostLookup(domain):
 mastodon = Mastodon(client_id='clientcred.txt', api_base_url='https://botsin.space')
 mastodon.log_in(
     open('email.txt').read(),
-    open('password.txt').read(),
-    to_file='usercred.txt'
+    open('password.txt').read()
 )
 
 while True:
