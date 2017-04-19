@@ -28,7 +28,7 @@ for word in words:
             #row = []
             #row.append(word)
             domain = lword[:-i]+'.'+lword[-i:]
-            if domain in history: conineu
+            if domain in history: coninue
             history.add(domain)
             historyfile.write(domain+'\n')
             historyfile.flush()
