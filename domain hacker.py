@@ -40,6 +40,9 @@ for word in words:
             else:
                 raise Exception("invalid exit code "+str(exitCode))'''
             if whois.whois(domain).expiration_date is not None: continue
+            history.add(domain)
+            historyfile.write(domain+'\n')
+            historyfile.sleep()
             '''url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q="+urllib.quote_plus(word)
             print url
             urldoc = urllib.urlopen(url)
