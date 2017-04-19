@@ -54,5 +54,5 @@ while True:
                 if whois.whois(domain).expiration_date is not None: continue
                 print domain
                 break
-        time.sleep(1*60)
+        time.sleep(1)#time.sleep(1*60)
 historyfile.close()
