@@ -51,7 +51,9 @@ while True:
                 history.add(domain)
                 historyfile.write(domain+'\n')
                 historyfile.flush()
-                if whois.whois(domain).expiration_date is not None: continue
+                if whois.whois(domain).expiration_date is not None:
+                    print "not", domain
+                    continue
                 print domain
                 break
         time.sleep(1)#time.sleep(1*60)
