@@ -55,3 +55,4 @@ while True:
                 print domain
                 break
         time.sleep(5*60)
+historyfile.close()
