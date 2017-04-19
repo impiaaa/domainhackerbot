@@ -56,5 +56,5 @@ while True:
                     continue
                 print domain
                 break
-        time.sleep(1)#time.sleep(1*60)
+        time.sleep(1)#time.sleep(5*60)
 historyfile.close()
