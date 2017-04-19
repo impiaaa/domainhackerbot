@@ -1,4 +1,5 @@
-import os, urllib, sys, re, random, time, whois, mastodon
+import os, urllib, sys, re
+import random, time, whois, mastodon
 
 domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
 domains = filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in domainslist])
