@@ -15,10 +15,8 @@ historyfilename = "domainhistory.txt"
 
 if os.path.exists(historyfilename):
     history = set([s.strip() for s in open(historyfilename)])
-    historyfile = open(historyfilename, 'a')
 else:
     history = set()
-    historyfile = open(historyfilename, 'w')
 
 def googleCount(word):
     url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q="+urllib.quote_plus(word)
@@ -56,8 +54,11 @@ while True:
                 domain = lword[:-len(extension)]+'.'+lword[-len(extension):]
                 if domain in history: coninue
                 history.add(domain)
+                
+                historyfile = open(historyfilename, 'w')
                 historyfile.write(domain+'\n')
-                historyfile.flush()
+                historyfile.close()
+                
                 if whois.whois(domain).expiration_date is not None:
                     print "not", domain
                     continue
@@ -65,4 +66,3 @@ while True:
                 mastodon.toot(domain)
                 time.sleep(10*60)
                 break
-historyfile.close()
