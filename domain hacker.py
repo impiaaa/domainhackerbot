@@ -11,7 +11,7 @@ maxdomainlen = max(map(len, domains))
 
 words = open("/usr/share/dict/words").readlines()
 
-historyfilename = "domainhistory.txt"
+historyfilename = "history.txt"
 
 if os.path.exists(historyfilename):
     history = set([s.strip() for s in open(historyfilename)])
