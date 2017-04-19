@@ -1,5 +1,6 @@
 import os, urllib, sys, re
-import random, time, whois, mastodon
+import random, time, whois
+from mastodon import Mastodon
 
 domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
 domains = filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in domainslist])
@@ -37,7 +38,14 @@ def hostLookup(domain):
         return True
     else:
         raise Exception("invalid exit code "+str(exitCode))
-    
+
+mastodon = Mastodon(client_id='clientcred.txt', api_base_url='https://botsin.space')
+mastodon.log_in(
+    open('email.txt').read(),
+    open('password.txt').read(),
+    to_file='usercred.txt'
+)
+
 while True:
     random.shuffle(words)
     for word in words:
