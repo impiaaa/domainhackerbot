@@ -32,13 +32,12 @@ def hostLookup(domain):
     if exitCode == 0:
         # If it has a host,
         # the website already exists.
-        #row.append("Taken")
-        continue
+        return False
     elif exitCode in (1, 256):
-        #row.append("Available")
-        pass
+        return True
     else:
         raise Exception("invalid exit code "+str(exitCode))
+    
 while True:
     random.shuffle(words)
     for word in words:
