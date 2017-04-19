@@ -63,6 +63,6 @@ while True:
                     continue
                 print domain
                 mastodon.toot(domain)
+                time.sleep(10*60)
                 break
-        time.sleep(5*60)
 historyfile.close()
