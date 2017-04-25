@@ -1,14 +1,14 @@
-import os, re
+import os, re, codecs
 import random, time, whois
 from mastodon import Mastodon
 
-domainslist = open("tlds-alpha-by-domain.txt")
-domains = filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in domainslist])
+domainslist = open('tlds-alpha-by-domain.txt')
+domains = list([line.strip().lower().decode('idna') for line in domainslist if not line.startswith("#")])
 domainslist.close()
 
-words = [s.strip() for s in open("/usr/share/dict/words") if not s.endswith("'s\n")]
+words = [s.strip() for s in codecs.open('/usr/share/dict/words', 'rU', 'utf-8') if not s.endswith(u"'s\n")]
 
-historyfilename = "history.txt"
+historyfilename = 'history.txt'
 
 if os.path.exists(historyfilename):
     history = set([s.strip() for s in open(historyfilename)])
@@ -25,21 +25,22 @@ while True:
     random.shuffle(words)
     for word in words:
         random.shuffle(domains)
-        lword = re.sub("\\W", "", word.lower())
+        lword = re.sub(u"\\W", u"", word.lower())
         for extension in domains:
             if len(extension) < 2: continue
+            if len(extension) >= len(lword): continue
             if lword.endswith(extension):
-                domain = lword[:-len(extension)]+'.'+lword[-len(extension):]
+                domain = lword[:-len(extension)]+u"."+lword[-len(extension):]
                 if domain in history: continue
                 history.add(domain)
                 
-                historyfile = open(historyfilename, 'a')
-                historyfile.write(domain+'\n')
+                historyfile = codecs.open(historyfilename, 'a', 'utf-8')
+                historyfile.write(domain+u"\n")
                 historyfile.close()
                 
                 try:
                     if whois.whois(domain).expiration_date is not None:
-                        print "not", domain
+                        print u"not", domain
                         continue
                 except Exception, e:
                     print domain, e
