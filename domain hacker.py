@@ -2,14 +2,15 @@ import os, urllib, sys, re
 import random, time, whois
 from mastodon import Mastodon
 
-domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
+#domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
+domainslist = open("tlds-alpha-by-domain.txt")
 domains = filter(lambda a: not a.startswith('#'), [line.strip().lower() for line in domainslist])
 domainslist.close()
 
 mindomainlen = min(map(len, domains))
 maxdomainlen = max(map(len, domains))
 
-words = open("/usr/share/dict/words").readlines()
+words = [s.strip() for s in open("/usr/share/dict/words") if not s.endswith("'s\n")]
 
 historyfilename = "history.txt"
 
@@ -47,20 +48,24 @@ while True:
     random.shuffle(words)
     for word in words:
         random.shuffle(domains)
-        word = word.strip()
         lword = re.sub("\\W", "", word.lower())
         for extension in domains:
+            if len(extension) < 2: continue
             if lword.endswith(extension):
                 domain = lword[:-len(extension)]+'.'+lword[-len(extension):]
-                if domain in history: coninue
+                if domain in history: continue
                 history.add(domain)
                 
-                historyfile = open(historyfilename, 'w')
+                historyfile = open(historyfilename, 'a')
                 historyfile.write(domain+'\n')
                 historyfile.close()
                 
-                if whois.whois(domain).expiration_date is not None:
-                    print "not", domain
+                try:
+                    if whois.whois(domain).expiration_date is not None:
+                        print "not", domain
+                        continue
+                except Exception, e:
+                    print domain, e
                     continue
                 print domain
                 mastodon.toot(domain)
