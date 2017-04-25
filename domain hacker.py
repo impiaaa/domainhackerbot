@@ -1,10 +1,14 @@
-import os, re, codecs
+import os, re, codecs, urllib
 import random, time, whois
 from mastodon import Mastodon
 
-domainslist = open('tlds-alpha-by-domain.txt')
+domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
 domains = list([line.strip().lower().decode('idna') for line in domainslist if not line.startswith("#")])
 domainslist.close()
+
+domains.remove(u"es")
+domains.remove(u"ng")
+domains.remove(u"ing")
 
 words = [s.strip() for s in codecs.open('/usr/share/dict/words', 'rU', 'utf-8') if not s.endswith(u"'s\n")]
 
