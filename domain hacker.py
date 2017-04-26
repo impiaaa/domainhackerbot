@@ -1,29 +1,61 @@
 import os, re, codecs, urllib
-import random, time, whois
+import random, time, whois, json
 from mastodon import Mastodon
 
-domainslist = urllib.urlopen("http://data.iana.org/TLD/tlds-alpha-by-domain.txt")
+# open to configuration
+testing = False
+sleepDuration = 10*60
+skipDomains = [u"es", u"ng", u"ing"]
+wordlist = '/usr/share/dict/words'
+disallowedStatuses = set(['active',
+                          'disallowed',
+                          'claimed',
+                          'reserved',
+                          'dpml',
+                          'invalid',
+                          'registrar',
+                          'zone',
+                          'tld'])
+mastodonUrl = 'https://botsin.space'
+
+# these probably shouldn't change
+tldsUrl = 'http://data.iana.org/TLD/tlds-alpha-by-domain.txt'
+historyFilename = 'history.txt'
+domainrEndpoint = 'https://domainr.p.mashape.com/v2/'
+
+
+domainslist = urllib.urlopen(tldsUrl)
 domains = list([line.strip().lower().decode('idna') for line in domainslist if not line.startswith("#")])
 domainslist.close()
 
-domains.remove(u"es")
-domains.remove(u"ng")
-domains.remove(u"ing")
+for extension in skipDomains:
+    domains.remove(extension)
 
-words = [s.strip() for s in codecs.open('/usr/share/dict/words', 'rU', 'utf-8') if not s.endswith(u"'s\n")]
+words = [s.strip() for s in codecs.open(wordlist, 'rU', 'utf-8') if not s.endswith(u"'s\n")]
 
-historyfilename = 'history.txt'
 
-if os.path.exists(historyfilename):
-    history = set([s.strip() for s in open(historyfilename)])
+if os.path.exists(historyFilename):
+    history = set([s.strip() for s in open(historyFilename)])
 else:
     history = set()
 
-mastodon = Mastodon(client_id='clientcred.txt', api_base_url='https://botsin.space')
-mastodon.log_in(
-    open('email.txt').read().strip(),
-    open('password.txt').read().strip()
-)
+if not testing:
+    mastodon = Mastodon(client_id='clientcred.txt', api_base_url=mastodonUrl)
+    mastodon.log_in(
+        open('email.txt').read().strip(),
+        open('password.txt').read().strip()
+    )
+
+#mashapeKey = open('mashapekey.txt').read().strip()
+
+def domainrStatus(domain):
+    params = {'mashape-key': mashapeKey,
+              'domain': domain}
+    url = domainrEndpoint + 'status?' + urllib.urlencode(params)
+    urldoc = urllib.urlopen(url)
+    result = json.load(urldoc)
+    urldoc.close()
+    return result['status'][0]['status'].split()
 
 while True:
     random.shuffle(words)
@@ -38,7 +70,7 @@ while True:
                 if domain in history: continue
                 history.add(domain)
                 
-                historyfile = codecs.open(historyfilename, 'a', 'utf-8')
+                historyfile = codecs.open(historyFilename, 'a', 'utf-8')
                 historyfile.write(domain+u"\n")
                 historyfile.close()
                 
@@ -47,9 +79,16 @@ while True:
                         print u"not", domain
                         continue
                 except Exception, e:
-                    print domain, e
-                    continue
+                    print e,
+                
+                #statusList = set(domainrStatus(domain))
+                #if not statusList.isdisjoint(disallowedStatuses):
+                #    print u"not", domain
+                #    continue
+                
                 print domain
-                mastodon.toot(domain)
-                time.sleep(10*60)
+                
+                if not testing:
+                    mastodon.toot(domain)
+                time.sleep(sleepDuration)
                 break
