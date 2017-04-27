@@ -33,6 +33,9 @@ for extension in skipDomains:
 
 words = [s.strip() for s in codecs.open(wordlist, 'rU', 'utf-8') if not s.endswith(u"'s\n")]
 
+# ASCII-only characters that are not allowed in a domain name (non-alphanumeric)
+domainNameDisallowed = re.compile(u"[\x00-,.-/:-@[-`{-\x7f]", flags=re.UNICODE)
+
 
 if os.path.exists(historyFilename):
     history = set([s.strip() for s in open(historyFilename)])
@@ -61,7 +64,7 @@ while True:
     random.shuffle(words)
     for word in words:
         random.shuffle(domains)
-        lword = re.sub(u"\\W", u"", word.lower())
+        lword = domainNameDisallowed.sub(u"", word.lower())
         for extension in domains:
             if len(extension) < 2: continue
             if len(extension) >= len(lword): continue
