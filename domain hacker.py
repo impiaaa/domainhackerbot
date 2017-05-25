@@ -4,7 +4,8 @@ from mastodon import Mastodon
 
 # open to configuration
 testing = False
-sleepDuration = 10*60
+sleepDuration = 15*60
+publicStatusFrequency = 4
 skipDomains = [u"es", u"ng", u"ing"]
 wordlist = '/usr/share/dict/words'
 disallowedStatuses = set(['active',
@@ -49,6 +50,8 @@ if not testing:
         open('password.txt').read().strip()
     )
 
+publicStatusCycle = 0
+
 #mashapeKey = open('mashapekey.txt').read().strip()
 
 def domainrStatus(domain):
@@ -84,9 +87,16 @@ while True:
                 except Exception, e:
                     print e,
                 
-                print domain.encode('utf-8')
+                publicStatusCycle += 1
+                if publicStatusCycle == publicStatusFrequency:
+                    publicStatusCycle = 0
+                    visibility = 'public'
+                else:
+                    visibility = 'unlisted'
+                
+                print visibility, domain.encode('utf-8')
                 
                 if not testing:
-                    mastodon.toot(domain)
+                    mastodon.status_post(domain, visibility=visibility)
                 time.sleep(sleepDuration)
                 break
