@@ -79,17 +79,12 @@ while True:
                 
                 try:
                     if whois.whois(domain).expiration_date is not None:
-                        print u"not", domain
+                        print u"not", domain.encode('utf-8')
                         continue
                 except Exception, e:
                     print e,
                 
-                #statusList = set(domainrStatus(domain))
-                #if not statusList.isdisjoint(disallowedStatuses):
-                #    print u"not", domain
-                #    continue
-                
-                print domain
+                print domain.encode('utf-8')
                 
                 if not testing:
                     mastodon.toot(domain)
