@@ -1,6 +1,7 @@
 import os, re, codecs, urllib
 import random, time, whois, json
 from mastodon import Mastodon
+from wordfilter import Wordfilter
 
 # open to configuration
 testing = False
@@ -52,6 +53,8 @@ if not testing:
 
 publicStatusCycle = 0
 
+wordfilter = Wordfilter()
+
 #mashapeKey = open('mashapekey.txt').read().strip()
 
 def domainrStatus(domain):
@@ -68,6 +71,10 @@ while True:
     for word in words:
         random.shuffle(domains)
         lword = domainNameDisallowed.sub(u"", word.lower())
+
+        if wordfilter.blacklisted(lword):
+            continue
+
         for extension in domains:
             if len(extension) < 2: continue
             if len(extension) >= len(lword): continue
@@ -75,27 +82,27 @@ while True:
                 domain = lword[:-len(extension)]+u"."+lword[-len(extension):]
                 if domain in history: continue
                 history.add(domain)
-                
+
                 historyfile = codecs.open(historyFilename, 'a', 'utf-8')
                 historyfile.write(domain+u"\n")
                 historyfile.close()
-                
+
                 try:
                     if whois.whois(domain).expiration_date is not None:
                         print u"not", domain.encode('utf-8')
                         continue
                 except Exception, e:
                     print e,
-                
+
                 publicStatusCycle += 1
                 if publicStatusCycle == publicStatusFrequency:
                     publicStatusCycle = 0
                     visibility = 'public'
                 else:
                     visibility = 'unlisted'
-                
+
                 print visibility, domain.encode('utf-8')
-                
+
                 if not testing:
                     mastodon.status_post(domain, visibility=visibility)
                 time.sleep(sleepDuration)
