@@ -91,7 +91,7 @@ while True:
 
                 try:
                     if whois.whois(domain).expiration_date is not None:
-                        print u"not", domain.encode('utf-8')
+                        print "not", domain.encode('utf-8')
                         continue
                 except Exception, e:
                     print e,
