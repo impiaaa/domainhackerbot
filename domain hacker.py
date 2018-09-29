@@ -34,14 +34,14 @@ domainslist.close()
 for extension in skipDomains:
     domains.remove(extension)
 
-words = [s.strip() for s in codecs.open(wordlist, 'rU', 'utf-8') if not s.endswith(u"'s\n")]
+words = [s.strip() for s in codecs.open(wordlist, 'rU', 'utf-8') if not s.endswith(u"'s\n") and not s.startswith(u"#") and not s.isspace()]
 
 # ASCII-only characters that are not allowed in a domain name (non-alphanumeric)
 domainNameDisallowed = re.compile(u"[\x00-,.-/:-@[-`{-\x7f]", flags=re.UNICODE)
 
 
 if os.path.exists(historyFilename):
-    history = set([s.strip() for s in open(historyFilename)])
+    history = set([s.strip() for s in codecs.open(historyFilename, 'r', 'utf-8')])
 else:
     history = set()
 
