@@ -1,6 +1,7 @@
 import os, re, codecs, urllib
 import random, time, whois, json
 from mastodon import Mastodon
+from mastodon.Mastodon import MastodonNetworkError
 from wordfilter import Wordfilter
 
 # open to configuration
@@ -103,7 +104,17 @@ while True:
 
                 print visibility, domain.encode('utf-8')
 
-                if not testing:
-                    mastodon.status_post(domain, visibility=visibility)
+                for i in range(5):
+                    try:
+                        if not testing:
+                            mastodon.status_post(domain, visibility=visibility)
+                        break
+                    except MastodonNetworkError, e:
+                        if i >= 4:
+                            raise
+                        else:
+                            print e
+                            time.sleep(5)
+
                 time.sleep(sleepDuration)
                 break
