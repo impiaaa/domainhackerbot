@@ -49,7 +49,8 @@ if not testing:
     mastodon = Mastodon(client_id='clientcred.txt', api_base_url=mastodonUrl)
     mastodon.log_in(
         open('email.txt').read().strip(),
-        open('password.txt').read().strip()
+        open('password.txt').read().strip(),
+        scopes=['write']
     )
 
 publicStatusCycle = 0
